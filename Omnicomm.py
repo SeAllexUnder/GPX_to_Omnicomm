@@ -96,7 +96,7 @@ class Omnicomm:
         response = r.get(url=URL, headers=headers).json()
         return response
 
-    def create_geofence(self, name: str, points, color='#005824'):
+    def create_geofence(self, name: str, points, color='#005824', type_z=1, lineWidth=50):
         """
         :param name: имя геозоны
         :param points: массив точек геозоны в формате json {"latitude": int, "longitude": int}
@@ -116,11 +116,11 @@ class Omnicomm:
         "status": 1,
         "geozoneType": 1,
         "radius": 0,
-        "lineWidth": 50,
+        "lineWidth": lineWidth,
         "latitude": 0,
         "longitude": 0,
         "geometry": {
-          "geometryType": 1,
+          "geometryType": type_z,
           "points": points
             }
         }
@@ -149,6 +149,14 @@ class Omnicomm:
             ]
         }
         response = r.post(url=URL, headers=headers, json=data)
+        return response
+
+    def get_geozone_tree(self):
+        URL = f'{self.URL}/ls/api/v1/tree/geozone'
+        headers = {
+            'Authorization': self.jwt
+        }
+        response = r.get(url=URL, headers=headers).json()
         return response
 
 
